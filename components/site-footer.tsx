@@ -9,11 +9,11 @@ export default function SiteFooter() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <Leaf className="h-5 w-5 text-primary" />
-              <span className="font-bold text-lg">NatureHarvest</span>
+              <span className="font-bold text-lg">Ghosala</span>
             </div>
             <p className="text-sm text-muted-foreground mb-4">
-              Bringing nature's goodness to your doorstep. Organic, sustainable, and ethically sourced products for a
-              healthier you and a healthier planet.
+              Traditional cow products made with love and care. Sustainable, ethical, and rooted in ancient wisdom for 
+              a healthier lifestyle and spiritual well-being.
             </p>
             <div className="flex gap-4">
               <Link href="#" className="text-primary hover:text-primary/80">
@@ -161,7 +161,7 @@ export default function SiteFooter() {
         </div>
         <div className="mt-8 pt-8 border-t border-muted text-center">
           <p className="text-sm text-muted-foreground">
-            © 2025 NatureHarvest. All rights reserved. Committed to organic and sustainable products.
+            © 2025 Ghosala. All rights reserved. Committed to traditional and sustainable cow products.
           </p>
         </div>
       </div>

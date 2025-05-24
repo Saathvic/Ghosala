@@ -10,8 +10,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Ghosala - Traditional Cow Products",
-  description: "Premium traditional and sustainable cow products for a healthier lifestyle",
-  generator: 'v0.dev'
+  description: "Premium traditional and sustainable cow products for a healthier lifestyle"
 }
 
 export default function RootLayout({

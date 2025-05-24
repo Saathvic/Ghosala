@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "my-v0-project",
+  "name": "ghosala",
   "version": "0.1.0",
   "private": true,
   "scripts": {
