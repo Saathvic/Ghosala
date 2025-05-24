@@ -1,0 +1,159 @@
+"use client"
+
+import { useState } from 'react'
+import { products } from "@/lib/data"
+import { 
+  Card, 
+  CardContent, 
+  CardDescription, 
+  CardHeader, 
+  CardTitle 
+} from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { BarChart, LineChart, PieChart } from "lucide-react"
+
+const chartdata = [
+  {
+    name: "Cow Dung Cakes",
+    "Number of sales": 483,
+  },
+  {
+    name: "Organic Ghee",
+    "Number of sales": 752,
+  },
+  {
+    name: "Panchakavya Vilakku",
+    "Number of sales": 321,
+  },
+  {
+    name: "Panchakavya Sambrani",
+    "Number of sales": 254,
+  },
+  {
+    name: "Cow Dung Basmam",
+    "Number of sales": 187,
+  },
+  {
+    name: "PANCHARATNA VASTUGAL",
+    "Number of sales": 145,
+  },
+  {
+    name: "SWARNA MAHAPERIYAVA KIT",
+    "Number of sales": 264,
+  },
+];
+
+export default function AnalyticsPage() {
+  const [tabValue, setTabValue] = useState('overview')
+  
+  // Calculate some statistics from the products
+  const totalProducts = products.length
+  const totalValue = products.reduce((sum, product) => sum + product.price, 0)
+  const averageRating = (products.reduce((sum, product) => sum + product.rating, 0) / products.length).toFixed(1)
+  const totalSales = chartdata.reduce((sum, item) => sum + item["Number of sales"], 0)
+  
+  return (
+    <div className="container mx-auto px-4 py-12">
+      <h1 className="text-3xl font-bold mb-8">Sales Analytics</h1>
+      
+      <Tabs value={tabValue} onValueChange={setTabValue} className="mb-8">
+        <TabsList className="mb-8">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="sales">Sales</TabsTrigger>
+          <TabsTrigger value="products">Products</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="overview">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <span className="text-green-500 text-sm">+12.5%</span>
+            <span className="text-gray-500 text-sm ml-2">from last month</span>
+          </div>
+        </div>
+        
+        <div className="bg-white p-6 rounded-lg shadow-sm">
+          <h3 className="text-lg text-gray-500 mb-2">Total Orders</h3>
+          <p className="text-3xl font-bold">2,406</p>
+          <div className="flex items-center mt-2">
+            <span className="text-green-500 text-sm">+8.2%</span>
+            <span className="text-gray-500 text-sm ml-2">from last month</span>
+          </div>
+        </div>
+        
+        <div className="bg-white p-6 rounded-lg shadow-sm">
+          <h3 className="text-lg text-gray-500 mb-2">Average Order Value</h3>
+          <p className="text-3xl font-bold">₹ 51.75</p>
+          <div className="flex items-center mt-2">
+            <span className="text-green-500 text-sm">+4.3%</span>
+            <span className="text-gray-500 text-sm ml-2">from last month</span>
+          </div>
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="bg-white p-6 rounded-lg shadow-sm">
+          <h2 className="text-xl font-semibold mb-6">Product Performance</h2>
+          <div className="space-y-4">
+            {products.map((product) => (
+              <div key={product.id} className="flex items-center">
+                <img 
+                  src={product.images[0]} 
+                  alt={product.name} 
+                  className="w-12 h-12 object-contain mr-4"
+                />
+                <div className="flex-1">
+                  <h3 className="font-medium">{product.name}</h3>
+                  <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                    <div 
+                      className="bg-primary h-2.5 rounded-full" 
+                      style={{ width: `${Math.floor(Math.random() * 60) + 40}%` }}
+                    ></div>
+                  </div>
+                </div>
+                <span className="ml-4 text-gray-700 font-medium">
+                  {Math.floor(Math.random() * 500) + 100} sold
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        <div className="bg-white p-6 rounded-lg shadow-sm">
+          <h2 className="text-xl font-semibold mb-6">Sales by Category</h2>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="font-medium">Spiritual Products</span>
+              <span className="text-gray-700">45%</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2.5">
+              <div className="bg-primary h-2.5 rounded-full" style={{ width: "45%" }}></div>
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <span className="font-medium">Garden Supplies</span>
+              <span className="text-gray-700">25%</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2.5">
+              <div className="bg-primary h-2.5 rounded-full" style={{ width: "25%" }}></div>
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <span className="font-medium">Groceries</span>
+              <span className="text-gray-700">20%</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2.5">
+              <div className="bg-primary h-2.5 rounded-full" style={{ width: "20%" }}></div>
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <span className="font-medium">Health Products</span>
+              <span className="text-gray-700">10%</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2.5">
+              <div className="bg-primary h-2.5 rounded-full" style={{ width: "10%" }}></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

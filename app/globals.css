@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 60 30% 98%;
+    --foreground: 120 15% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 120 15% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 120 15% 15%;
+    --primary: 142 76% 36%;
+    --primary-foreground: 355 100% 100%;
+    --secondary: 80 59% 95%;
+    --secondary-foreground: 120 15% 15%;
+    --muted: 80 59% 95%;
+    --muted-foreground: 120 10% 40%;
+    --accent: 142 76% 95%;
+    --accent-foreground: 142 76% 36%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 120 10% 90%;
+    --input: 120 10% 90%;
+    --ring: 142 76% 36%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 120 15% 15%;
+    --foreground: 60 30% 98%;
+    --card: 120 15% 15%;
+    --card-foreground: 60 30% 98%;
+    --popover: 120 15% 15%;
+    --popover-foreground: 60 30% 98%;
+    --primary: 142 76% 36%;
+    --primary-foreground: 355 100% 100%;
+    --secondary: 120 10% 20%;
+    --secondary-foreground: 60 30% 98%;
+    --muted: 120 10% 20%;
+    --muted-foreground: 120 10% 70%;
+    --accent: 120 10% 20%;
+    --accent-foreground: 60 30% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 60 30% 98%;
+    --border: 120 10% 20%;
+    --input: 120 10% 20%;
+    --ring: 142 76% 36%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.half-star {
+  position: relative;
+  display: inline-block;
+}
+
+.half-star::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background-color: white;
+  mix-blend-mode: difference;
+}

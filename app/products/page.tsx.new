@@ -1,0 +1,137 @@
+"use client";
+
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import ProductCard from "@/components/product-card";
+import { products, categories } from "@/lib/data";
+import { useState } from "react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Filter } from "lucide-react";
+
+export default function ProductsPage() {
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [sortBy, setSortBy] = useState("featured");
+
+  // Filter products by category
+  const filteredProducts = selectedCategory
+    ? products.filter(p => p.category === selectedCategory)
+    : products;
+
+  // Sort filtered products
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    switch (sortBy) {
+      case "price-low":
+        return a.price - b.price;
+      case "price-high":
+        return b.price - a.price;
+      case "rating":
+        return b.rating - a.rating;
+      default:
+        return 0;
+    }
+  });
+
+  const FilterSidebar = () => (
+    <aside className="w-full md:w-64 shrink-0">
+      <div className="bg-white p-4 border rounded-lg">
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="font-semibold">Categories</h3>
+          <Button 
+            variant="link" 
+            size="sm" 
+            className="text-xs md:hidden" 
+            onClick={() => setIsFiltersOpen(false)}
+          >
+            Close
+          </Button>
+        </div>
+        <ul className="space-y-2 text-sm">
+          <li>
+            <button
+              className={`hover:text-primary w-full text-left ${!selectedCategory ? 'font-semibold text-primary' : ''}`}
+              onClick={() => setSelectedCategory(null)}
+            >
+              All Products
+            </button>
+          </li>
+          {categories.map((category) => (
+            <li key={category.id}>
+              <button
+                className={`hover:text-primary w-full text-left ${selectedCategory === category.name ? 'font-semibold text-primary' : ''}`}
+                onClick={() => setSelectedCategory(category.name)}
+              >
+                {category.name}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </aside>
+  );
+
+  return (
+    <div className="container mx-auto px-4 py-6 md:py-8">
+      <div className="flex items-center gap-2 mb-4 md:mb-6 text-xs md:text-sm overflow-x-auto whitespace-nowrap pb-2">
+        <Link href="/" className="text-gray-500 hover:text-primary">
+          Home
+        </Link>
+        <ChevronRight className="h-3 w-3 md:h-4 md:w-4 text-gray-500 flex-shrink-0" />
+        <span className="font-medium">All Products</span>
+      </div>
+
+      <div className="flex flex-col md:flex-row gap-6 md:gap-8">
+        <div className="md:hidden flex justify-between items-center mb-4">
+          <h1 className="text-xl font-bold">
+            {selectedCategory || 'All Products'}
+          </h1>
+          <Sheet open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="sm" className="gap-2">
+                <Filter className="h-4 w-4" />
+                Filters
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[300px] p-0">
+              <FilterSidebar />
+            </SheetContent>
+          </Sheet>
+        </div>
+        
+        <div className="hidden md:block">
+          <FilterSidebar />
+        </div>
+
+        <div className="flex-1">
+          <div className="hidden md:flex items-center justify-between mb-6">
+            <h1 className="text-2xl font-bold">
+              {selectedCategory || 'All Products'}
+            </h1>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-500">Sort by:</span>
+              <select 
+                className="text-sm border rounded-md p-1"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+              >
+                <option value="featured">Featured</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="rating">Customer Rating</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 md:gap-6">
+            {sortedProducts.map((product) => (
+              <Link href={`/products/${product.id}`} key={product.id}>
+                <ProductCard product={product} />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
