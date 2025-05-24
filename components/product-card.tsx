@@ -51,13 +51,13 @@ export default function ProductCard({ product }: ProductCardProps) {
     >
       <Link href={`/products/${product.id}`} className="relative block">
         <div className="aspect-square relative overflow-hidden">
-          <img
-            src={product.images[0]}
+          <Image
+            src={product.images[0] || '/placeholder.svg'}
             alt={product.name}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-contain w-full h-full transition-transform group-hover:scale-105"
-            onError={(e) => {
-              // Fallback if image fails to load
-              e.currentTarget.src = "/images/placeholder.png";
+            onError={() => {
               console.log(`Image failed to load for product: ${product.id}`);
             }}
           />

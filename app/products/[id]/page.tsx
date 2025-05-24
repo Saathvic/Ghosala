@@ -16,18 +16,28 @@ import type { Product } from "@/lib/types";
 
 export default function ProductPage() {
   const params = useParams();
+  const productId = typeof params.id === 'string' ? params.id : 
+                    Array.isArray(params.id) ? params.id[0] : null;
   const [product, setProduct] = useState<Product | null>(null);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   useEffect(() => {
-    if (params.id) {
-      // Make sure we're using a string ID and handle potential Array case
-      const productId = Array.isArray(params.id) ? params.id[0] : params.id;
-      const productData = getProductById(productId);
-      console.log("Product data fetched:", productId, productData);
-      setProduct(productData);
+    if (productId) {
+      try {
+        console.log("Fetching product with ID:", productId);
+        const productData = getProductById(productId);
+        
+        if (productData) {
+          console.log("Product data fetched successfully");
+          setProduct(productData);
+        } else {
+          console.error("Product not found with ID:", productId);
+        }
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      }
     }
-  }, [params.id]);
+  }, [productId]);
 
   if (!product) {
     return (
