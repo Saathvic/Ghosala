@@ -24,35 +24,39 @@ export default function HeroCarousel() {
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, []) // Adding dependency here would cause the interval to reset when slide changes
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full" aria-label="Product carousel" role="region">
       <div className="overflow-hidden relative">
         <div
           className="flex transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${currentSlide * 100}%)` }}
         >
           {heroSlides.map((slide, index) => (
-            <div key={index} className="w-full flex-shrink-0 relative">
+            <div key={index} className="w-full flex-shrink-0 relative" aria-hidden={index !== currentSlide}>
               <div className="aspect-[16/9] md:aspect-[21/9] w-full relative">
                 <Image
                   src={slide.image || "/placeholder.svg"}
-                  alt={slide.title}
+                  alt={`${slide.title} - ${slide.description}`}
                   fill
                   className="object-cover"
-                  priority={index === 0}
-                  sizes="100vw"
+                  priority={index === 0 || index === 1}
+                  sizes="(max-width: 768px) 100vw, 100vw"
+                  onError={(e) => {
+                    console.error(`Failed to load image: ${slide.image}`);
+                    e.currentTarget.src = "/placeholder.svg";
+                  }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/20" />
               </div>
               <div className="absolute inset-0 flex items-center">
                 <div className="container mx-auto px-4">
                   <div className="max-w-lg text-white">
-                    <h2 className="text-2xl md:text-4xl font-bold mb-2 drop-shadow-lg">{slide.title}</h2>
-                    <p className="text-sm md:text-base mb-4 drop-shadow-lg">{slide.description}</p>
+                    <h2 className="text-xl sm:text-2xl md:text-4xl font-bold mb-1 sm:mb-2 drop-shadow-lg">{slide.title}</h2>
+                    <p className="text-xs sm:text-sm md:text-base mb-2 md:mb-4 drop-shadow-lg">{slide.description}</p>
                     <Link href={slide.link}>
-                      <Button className="bg-primary hover:bg-primary/90">Shop Now</Button>
+                      <Button className="bg-primary hover:bg-primary/90 text-xs sm:text-sm md:text-base py-1 md:py-2">Shop Now</Button>
                     </Link>
                   </div>
                 </div>
@@ -65,27 +69,30 @@ export default function HeroCarousel() {
       <Button
         variant="outline"
         size="icon"
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow-md h-10 w-10"
+        className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow-md h-8 w-8 sm:h-10 sm:w-10"
         onClick={prevSlide}
+        aria-label="Previous slide"
       >
-        <ChevronLeft className="h-5 w-5" />
+        <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
       </Button>
 
       <Button
         variant="outline"
         size="icon"
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow-md h-10 w-10"
+        className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow-md h-8 w-8 sm:h-10 sm:w-10"
         onClick={nextSlide}
+        aria-label="Next slide"
       >
-        <ChevronRight className="h-5 w-5" />
+        <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
       </Button>
 
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 bg-black/20 px-3 py-2 rounded-full">
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1 md:gap-2 bg-black/20 px-2 py-1 md:px-3 md:py-2 rounded-full">
         {heroSlides.map((_, index) => (
           <button
             key={index}
-            className={`w-3 h-3 rounded-full ${index === currentSlide ? "bg-white" : "bg-white/50"} transition-all`}
+            className={`w-2 h-2 md:w-3 md:h-3 rounded-full ${index === currentSlide ? "bg-white" : "bg-white/50"} transition-all`}
             onClick={() => setCurrentSlide(index)}
+            aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>

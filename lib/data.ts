@@ -19,6 +19,18 @@ export const heroSlides: HeroSlide[] = [
     image: "/images/Untitled design (6).png",
     link: "/products",
   },
+  {
+    title: "Pure Organic Ghee",
+    description: "Traditional A2 cow ghee made using the ancient Bilona method",
+    image: "/images/ghee.png",
+    link: "/products/p2",
+  },
+  {
+    title: "Panchakavya Sambrani",
+    description: "Traditional incense for purification and aromatherapy",
+    image: "/images/sambrani.png",
+    link: "/products/p4",
+  },
 ]
 
 export const categories: Category[] = [
